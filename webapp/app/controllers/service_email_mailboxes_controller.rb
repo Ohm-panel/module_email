@@ -54,7 +54,7 @@ class ServiceEmailMailboxesController < ServiceEmailController
     legal_domain = @logged_user.domains.include? @mailbox.domain
 
     if legal_domain and @mailbox.save
-      flash[:notice] = 'Mailbox successfully created.'
+      flash[:notice] = "Mailbox successfully created.#{@@warn_changes}"
       redirect_to :action => 'index'
     else
       @mailbox.errors.add(:domain_id, 'is not managed by you') unless legal_domain
@@ -77,7 +77,7 @@ class ServiceEmailMailboxesController < ServiceEmailController
       flash[:error] = 'Invalid mailbox'
       redirect_to :action => 'index'
     elsif @mailbox.update_attributes(params[:service_email_mailbox])
-      flash[:notice] = @mailbox.full_address + ' was successfully updated.'
+      flash[:notice] = @mailbox.full_address + " was successfully updated.#{@@warn_changes}"
       redirect_to :action => 'index'
     else
       render :action => 'edit'
@@ -92,7 +92,7 @@ class ServiceEmailMailboxesController < ServiceEmailController
     if @logged_user.domains.include? @mailbox.domain
       @mailbox.destroy
 
-      flash[:notice] = @mailbox.full_address + ' was successfully deleted.'
+      flash[:notice] = @mailbox.full_address + " was successfully deleted.#{@@warn_changes}"
       redirect_to :action => 'index'
     else
       flash[:error] = 'Invalid mailbox'

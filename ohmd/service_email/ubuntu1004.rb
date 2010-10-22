@@ -38,6 +38,9 @@ class Ohmd_service_email
     begin
       # Dovecot
       File.copy "service_email/dovecot.conf", "/etc/dovecot/dovecot.conf"
+      # Ubuntu 10.04 should use dovecot.conf, but in some cases dovecot-postfix.conf is still in use
+      File.unlink "/etc/dovecot/dovecot-postfix.conf" if File.exist? "/etc/dovecot/dovecot-postfix.conf"
+      File.symlink "/etc/dovecot/dovecot.conf", "/etc/dovecot/dovecot-postfix.conf"
 
       # Postfix
       File.copy "service_email/master.cf", "/etc/postfix/master.cf"

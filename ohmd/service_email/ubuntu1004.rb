@@ -119,11 +119,10 @@ class Ohmd_service_email
       or return false
     des_key = Array.new(24) { DES_CHARS[ rand(DES_CHARS.size) ] }
     begin
-      maininc = File.read("/var/www/roundcube/config/main.inc.php").split("?>")[0]
+      maininc = File.read("/var/www/roundcube/config/main.inc.php")
       File.open("/var/www/roundcube/config/main.inc.php", "w") { |f|
         f.puts maininc
         f.puts "$rcmail_config['des_key'] = '#{des_key}';"
-        f.print "?>"
       }
     rescue Exception
       return false

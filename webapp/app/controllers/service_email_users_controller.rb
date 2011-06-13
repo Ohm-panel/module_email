@@ -94,15 +94,11 @@ class ServiceEmailUsersController < ServiceEmailController
   def update
     @service_email_user = ServiceEmailUser.find(params[:id])
 
-    respond_to do |format|
-      if @service_email_user.update_attributes(params[:service_email_user])
-        flash[:notice] = 'ServiceEmailUser was successfully updated.'
-        format.html { redirect_to(@service_email_user) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @service_email_user.errors, :status => :unprocessable_entity }
-      end
+   if @service_email_user.update_attributes(params[:service_email_user])
+      flash[:notice] = 'ServiceEmailUser was successfully updated.'
+      redirect_to @service_email_user.user
+    else
+      render :action => "edit"
     end
   end
 end
